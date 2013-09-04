@@ -1,5 +1,4 @@
-Django Skeleton Project
-================
+
 
 ####*A clean project of a Django web-framework running on Heroku with static files served from Amazon S3, attempting to follow the [12-factor](http://www.12factor.net/) design pattern.*
 
@@ -190,3 +189,10 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
 
 ####`.gitignore`
 > Ignores common ignorables for python and django development
+
+
+heroku_django_aws
+=================
+
+Sample Django app  i.e. hosted on heroku with facility of staticfiles served from Amazom Web Services
+
