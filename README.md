@@ -1,12 +1,10 @@
 
-
-####*A clean project of a Django web-framework running on Heroku with static files served from Amazon S3, attempting to follow the [12-factor](http://www.12factor.net/) design pattern.*
+####*A project of a Django web-framework running on Heroku with static files served from Amazon .*
 
 >**Django** is a web framework that simplifies the work required to make a web app in python.
 >
 >**Heroku** is touted as one of the best 'platform as a service' providers. You can host apps >without having to get too involved with installing your own serving software etc.
 >
->**Amazon S3** is a quick, cheap way to host static files (images, js, css etc. that doesn't >change) because heroku doesn't do that.>
 
 This collection is touted as one fo the best ways to serve up django apps, that's free initially and can scale up easily. This repo gets it up and running quickly and securely.
 
@@ -18,22 +16,24 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
 - [virtualenv](https://pypi.python.org/pypi/virtualenv) and [virtualenvwrapper](https://bitbucket.org/dhellmann/virtualenvwrapper)
 - an Amazon Web Services account
 
+
 ## Installation
 
-1. Make a new virtualenv and clone this repo
-        
+1. set your ssh key with heroku.
+
     ```sh
-    mkvirtualenv [name-of-your-project]
-    git clone https://github.com/jordn/heroku-django-s3 [name-of-your-project]
-    cd [name-of-your-project]
+    heroku keys:add ~/.ssh/id_rsa.pub
     ```
-2. Install all the dependencies (django, psycopg2, gunicorn, dj-database-url, boto and django-storages) with pip. These are specified in requirements.txt (if you edit this file to remove the version numbers it will install the latest versions available)
+    
+2. Make a new virtualenv and clone this repo
+        
+3. Install all the dependencies (django, psycopg2, gunicorn, dj-database-url, boto and django-storages) with pip. These are specified in requirements.txt (if you edit this file to remove the version numbers it will install the latest versions available)
 
     ```sh
     pip install -r requirements.txt
     ```
 
-3. All the private or environment-dependant settings in `settings.py` are kept as environmental variables.
+4. All the private or environment-dependant settings in `settings.py` are kept as environmental variables.
     We need to set these variables everytime we enter this virtual environment. virtualenvwrapper does this with a `postactivate` script. Edit this file:
 
     ```sh
@@ -56,13 +56,13 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
     export DJ_SECRET_KEY=[Any random sequence of 40ish characters  - django uses it for added security]
     ```
 
-4. Reopen the virtualenv to run this script
+5. Reopen the virtualenv to run this script
 
     ```sh
-    workon [name-of-your-project]
+    workon [name-of-env]
     ```
 
-5. Everything should now work for **local development** to check we can see the admin pages at `http://127.0.0.1:8000/admin/`
+6. Everything should now work for **local development** to check we can see the admin pages at `http://127.0.0.1:8000/admin/`
 
     ```sh
     python manage.py syncdb
@@ -71,16 +71,19 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
     ```
 
 
-6. Create the app on heroku and push everything there. Heroku will detect it's a python app and install everything in requirements.txt (update this file with `pip freeze > requirements.txt`)
+7. Create the app on heroku and push everything there. Heroku will detect it's a python app and install everything in requirements.txt (update this file with `pip freeze > requirements.txt`)
 
     ```sh
     heroku create [name-of-your-project]
+    ...
+    git remote add heroku git@heroku.com:username/your_app.git
+    ...
     ...
     git push heroku master
     ...
     ```
 
-7. The heroku django needs the environmental variables too (`DATABASE_URL` is already set on heroku) so we'll send over the values set locally:
+8. The heroku django needs the environmental variables too (`DATABASE_URL` is already set on heroku) so we'll send over the values set locally:
 
     ```sh
     heroku config:add AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME
@@ -95,7 +98,7 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
     heroku config:add DJ_DEBUG=True
     ``` 
 
-8. Should now be ready. Go and build that web app!
+9. Should now be ready. Go and build that web app!
 
     ```sh
     heroku run python manage.py syncdb
@@ -111,6 +114,16 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
     ```python
     ALLOWED_HOSTS = ['[your-project-name].herokuapp.com']
     ```
+10. To run heroku shell
+    ```sh
+    heroku run bash
+    ```
+11. you can see heroku logs by:
+    ```sh
+    heroku logs
+    ```
+
+12. 
 
 
 
@@ -181,18 +194,6 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
 >    STATIC_URL = S3_URL
 >```
 
-####`urls.py`
->Uncommented lines 4, 5, 13 and 16 from urls to enable admin urls
 
 ####`Procfile`
 > Runs gunicorn process for heroku
-
-####`.gitignore`
-> Ignores common ignorables for python and django development
-
-
-heroku_django_aws
-=================
-
-Sample Django app  i.e. hosted on heroku with facility of staticfiles served from Amazom Web Services
-
