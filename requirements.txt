@@ -5,3 +5,4 @@ django-storages
 gunicorn
 psycopg2
 wsgiref
+dj-static
