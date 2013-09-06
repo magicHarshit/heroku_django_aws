@@ -1,4 +1,3 @@
-
 ####*A project of a Django web-framework running on Heroku with static files served from Amazon .*
 
 >**Django** is a web framework that simplifies the work required to make a web app in python.
@@ -122,8 +121,6 @@ This setup using the excellent virtualenvwrapper to isolate the installed depend
     ```sh
     heroku logs
     ```
-
-12. 
 
 
 
